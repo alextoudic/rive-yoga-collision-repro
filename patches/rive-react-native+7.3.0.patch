@@ -1,0 +1,171 @@
+diff --git a/node_modules/rive-react-native/android/src/main/java/com/rivereactnative/RNRiveRendererType.kt b/node_modules/rive-react-native/android/src/main/java/com/rivereactnative/RNRiveRendererType.kt
+index 6334abf..f1e8399 100644
+--- a/node_modules/rive-react-native/android/src/main/java/com/rivereactnative/RNRiveRendererType.kt
++++ b/node_modules/rive-react-native/android/src/main/java/com/rivereactnative/RNRiveRendererType.kt
+@@ -4,7 +4,6 @@ import app.rive.runtime.kotlin.core.RendererType
+ 
+ enum class RNRiveRendererType(private val rendererTypeName: String) {
+   Rive("rive"),
+-  Skia("skia"),
+   Canvas("canvas");
+ 
+   override fun toString(): String {
+@@ -19,7 +18,6 @@ enum class RNRiveRendererType(private val rendererTypeName: String) {
+     fun mapToRiveRendererType(rnRendererType: RNRiveRendererType): RendererType {
+       return when (rnRendererType) {
+         Rive -> RendererType.Rive
+-        Skia -> RendererType.Skia
+         Canvas -> RendererType.Canvas
+       }
+     }
+diff --git a/node_modules/rive-react-native/ios/RNRiveRendererType.swift b/node_modules/rive-react-native/ios/RNRiveRendererType.swift
+index 1444ccd..e2a7884 100644
+--- a/node_modules/rive-react-native/ios/RNRiveRendererType.swift
++++ b/node_modules/rive-react-native/ios/RNRiveRendererType.swift
+@@ -9,27 +9,23 @@ import Foundation
+ import RiveRuntime
+ 
+ enum RNRiveRendererType: String {
+-    case Rive = "rive"
+-    case Skia = "skia"
+-    case CoreGraphics = "coreGraphics"
++  case Rive = "rive"
++  case CoreGraphics = "coreGraphics"
+ 
+-    static func mapToRNRiveRendererType(value: String) -> RNRiveRendererType {
+-        if let rnEnum = RNRiveRendererType(rawValue: value) {
+-            return rnEnum
+-        } else {
+-            fatalError("Unsupported renderer type: \(value)")
+-        }
++  static func mapToRNRiveRendererType(value: String) -> RNRiveRendererType {
++    if let rnEnum = RNRiveRendererType(rawValue: value) {
++      return rnEnum
++    } else {
++      fatalError("Unsupported renderer type: \(value)")
+     }
++  }
+ 
+-    static func mapToRendererType(rnRendererType: RNRiveRendererType) -> RendererType {
+-        switch rnRendererType {
+-        case .Rive:
+-            return RendererType.riveRenderer
+-        case .Skia:
+-            return RendererType.skiaRenderer
+-        case .CoreGraphics:
+-            return RendererType.cgRenderer
+-        }
++  static func mapToRendererType(rnRendererType: RNRiveRendererType) -> RendererType {
++    switch rnRendererType {
++    case .Rive:
++      return RendererType.riveRenderer
++    case .CoreGraphics:
++      return RendererType.cgRenderer
+     }
++  }
+ }
+-
+diff --git a/node_modules/rive-react-native/lib/commonjs/types.js b/node_modules/rive-react-native/lib/commonjs/types.js
+index ef96b14..278488d 100644
+--- a/node_modules/rive-react-native/lib/commonjs/types.js
++++ b/node_modules/rive-react-native/lib/commonjs/types.js
+@@ -75,7 +75,6 @@ exports.RiveRendererIOS = RiveRendererIOS;
+ 
+ (function (RiveRendererIOS) {
+   RiveRendererIOS["Rive"] = "rive";
+-  RiveRendererIOS["Skia"] = "skia";
+   RiveRendererIOS["CoreGraphics"] = "coreGraphics";
+ })(RiveRendererIOS || (exports.RiveRendererIOS = RiveRendererIOS = {}));
+ 
+@@ -84,7 +83,6 @@ exports.RiveRendererAndroid = RiveRendererAndroid;
+ 
+ (function (RiveRendererAndroid) {
+   RiveRendererAndroid["Rive"] = "rive";
+-  RiveRendererAndroid["Skia"] = "skia";
+   RiveRendererAndroid["Canvas"] = "canvas";
+ })(RiveRendererAndroid || (exports.RiveRendererAndroid = RiveRendererAndroid = {}));
+ 
+diff --git a/node_modules/rive-react-native/lib/commonjs/types.js.map b/node_modules/rive-react-native/lib/commonjs/types.js.map
+index db014db..70027b7 100644
+--- a/node_modules/rive-react-native/lib/commonjs/types.js.map
++++ b/node_modules/rive-react-native/lib/commonjs/types.js.map
+@@ -1 +1 @@
+-{"version":3,"sources":["types.ts"],"names":["ViewManagerMethod","Fit","Alignment","LoopMode","Direction","RiveRendererIOS","RiveRendererAndroid","RNRiveErrorType"],"mappings":";;;;;;IA2BYA,iB;;;WAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;GAAAA,iB,iCAAAA,iB;;IAgBAC,G;;;WAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;GAAAA,G,mBAAAA,G;;IAUAC,S;;;WAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,yBAAAA,S;;IAYAC,Q;;;WAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;GAAAA,Q,wBAAAA,Q;;IAOAC,S;;;WAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,yBAAAA,S;;IAMAC,e;;;WAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,+BAAAA,e;;IAMAC,mB;;;WAAAA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;GAAAA,mB,mCAAAA,mB;;IAMAC,e;;;WAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,+BAAAA,e","sourcesContent":["export type RiveRef = {\n  fireState: (stateMachineName: string, inputName: string) => void;\n  setInputState: (\n    stateMachineName: string,\n    inputName: string,\n    value: boolean | number\n  ) => void;\n  fireStateAtPath: (inputName: string, path: string) => void;\n  setInputStateAtPath: (\n    inputName: string,\n    value: boolean | number,\n    path: string\n  ) => void;\n  play: (\n    animationName?: string,\n    loop?: LoopMode,\n    direction?: Direction,\n    isStateMachine?: boolean\n  ) => void;\n  pause: () => void;\n  stop: () => void;\n  reset: () => void;\n  touchBegan: (x: number, y: number) => void;\n  touchEnded: (x: number, y: number) => void;\n  setTextRunValue: (textRunName: string, value: string) => void;\n};\n\nexport enum ViewManagerMethod {\n  play = 'play',\n  pause = 'pause',\n  stop = 'stop',\n  reset = 'reset',\n  fireState = 'fireState',\n  setBooleanState = 'setBooleanState',\n  setNumberState = 'setNumberState',\n  fireStateAtPath = 'fireStateAtPath',\n  setBooleanStateAtPath = 'setBooleanStateAtPath',\n  setNumberStateAtPath = 'setNumberStateAtPath',\n  touchBegan = 'touchBegan',\n  touchEnded = 'touchEnded',\n  setTextRunValue = 'setTextRunValue',\n}\n\nexport enum Fit {\n  Cover = 'cover',\n  Contain = 'contain',\n  Fill = 'fill',\n  FitWidth = 'fitWidth',\n  FitHeight = 'fitHeight',\n  None = 'none',\n  ScaleDown = 'scaleDown',\n}\n\nexport enum Alignment {\n  TopLeft = 'topLeft',\n  TopCenter = 'topCenter',\n  TopRight = 'topRight',\n  CenterLeft = 'centerLeft',\n  Center = 'center',\n  CenterRight = 'centerRight',\n  BottomLeft = 'bottomLeft',\n  BottomCenter = 'bottomCenter',\n  BottomRight = 'bottomRight',\n}\n\nexport enum LoopMode {\n  OneShot = 'oneShot',\n  Loop = 'loop',\n  PingPong = 'pingPong',\n  Auto = 'auto',\n}\n\nexport enum Direction {\n  Backwards = 'backwards',\n  Auto = 'auto',\n  Forwards = 'forwards',\n}\n\nexport enum RiveRendererIOS {\n  Rive = 'rive',\n  Skia = 'skia',\n  CoreGraphics = 'coreGraphics',\n}\n\nexport enum RiveRendererAndroid {\n  Rive = 'rive',\n  Skia = 'skia',\n  Canvas = 'canvas',\n}\n\nexport enum RNRiveErrorType {\n  FileNotFound = 'FileNotFound',\n  UnsupportedRuntimeVersion = 'UnsupportedRuntimeVersion',\n  IncorrectRiveFileUrl = 'IncorrectRiveFileUrl',\n  IncorrectAnimationName = 'IncorrectAnimationName',\n  MalformedFile = 'MalformedFile',\n  IncorrectArtboardName = 'IncorrectArtboardName',\n  IncorrectStateMachineName = 'IncorrectStateMachineName',\n  IncorrectStateMachineInput = 'IncorrectStateMachineInput',\n  TextRunNotFoundError = 'TextRunNotFoundError',\n}\n\nexport type RNRiveError = {\n  message: string;\n  type: RNRiveErrorType;\n};\n\nexport interface RiveEventProperties {\n  [key: string]: number | boolean | string;\n}\n\nexport interface RiveEvent {\n  name: string;\n  type: number;\n  delay?: number;\n  properties?: RiveEventProperties;\n}\n\nexport interface RiveGeneralEvent extends RiveEvent {}\n\nexport interface RiveOpenUrlEvent extends RiveEvent {\n  url?: string;\n  target?: string;\n}\n\nexport interface RiveRendererInterface {\n  defaultRenderer(\n    iosRenderer: RiveRendererIOS,\n    androidRenderer: RiveRendererAndroid\n  ): void;\n}\n"]}
+\ No newline at end of file
++{"version":3,"sources":["types.ts"],"names":["ViewManagerMethod","Fit","Alignment","LoopMode","Direction","RiveRendererIOS","RiveRendererAndroid","RNRiveErrorType"],"mappings":";;;;;;IA2BYA,iB;;;WAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;GAAAA,iB,iCAAAA,iB;;IAgBAC,G;;;WAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;GAAAA,G,mBAAAA,G;;IAUAC,S;;;WAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,yBAAAA,S;;IAYAC,Q;;;WAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;GAAAA,Q,wBAAAA,Q;;IAOAC,S;;;WAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,yBAAAA,S;;IAMAC,e;;;WAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,+BAAAA,e;;IAMAC,mB;;;WAAAA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;GAAAA,mB,mCAAAA,mB;;IAMAC,e;;;WAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,+BAAAA,e","sourcesContent":["export type RiveRef = {\n  fireState: (stateMachineName: string, inputName: string) => void;\n  setInputState: (\n    stateMachineName: string,\n    inputName: string,\n    value: boolean | number\n  ) => void;\n  fireStateAtPath: (inputName: string, path: string) => void;\n  setInputStateAtPath: (\n    inputName: string,\n    value: boolean | number,\n    path: string\n  ) => void;\n  play: (\n    animationName?: string,\n    loop?: LoopMode,\n    direction?: Direction,\n    isStateMachine?: boolean\n  ) => void;\n  pause: () => void;\n  stop: () => void;\n  reset: () => void;\n  touchBegan: (x: number, y: number) => void;\n  touchEnded: (x: number, y: number) => void;\n  setTextRunValue: (textRunName: string, value: string) => void;\n};\n\nexport enum ViewManagerMethod {\n  play = 'play',\n  pause = 'pause',\n  stop = 'stop',\n  reset = 'reset',\n  fireState = 'fireState',\n  setBooleanState = 'setBooleanState',\n  setNumberState = 'setNumberState',\n  fireStateAtPath = 'fireStateAtPath',\n  setBooleanStateAtPath = 'setBooleanStateAtPath',\n  setNumberStateAtPath = 'setNumberStateAtPath',\n  touchBegan = 'touchBegan',\n  touchEnded = 'touchEnded',\n  setTextRunValue = 'setTextRunValue',\n}\n\nexport enum Fit {\n  Cover = 'cover',\n  Contain = 'contain',\n  Fill = 'fill',\n  FitWidth = 'fitWidth',\n  FitHeight = 'fitHeight',\n  None = 'none',\n  ScaleDown = 'scaleDown',\n}\n\nexport enum Alignment {\n  TopLeft = 'topLeft',\n  TopCenter = 'topCenter',\n  TopRight = 'topRight',\n  CenterLeft = 'centerLeft',\n  Center = 'center',\n  CenterRight = 'centerRight',\n  BottomLeft = 'bottomLeft',\n  BottomCenter = 'bottomCenter',\n  BottomRight = 'bottomRight',\n}\n\nexport enum LoopMode {\n  OneShot = 'oneShot',\n  Loop = 'loop',\n  PingPong = 'pingPong',\n  Auto = 'auto',\n}\n\nexport enum Direction {\n  Backwards = 'backwards',\n  Auto = 'auto',\n  Forwards = 'forwards',\n}\n\nexport enum RiveRendererIOS {\n  Rive = 'rive',\n  CoreGraphics = 'coreGraphics',\n}\n\nexport enum RiveRendererAndroid {\n  Rive = 'rive',\n  Canvas = 'canvas',\n}\n\nexport enum RNRiveErrorType {\n  FileNotFound = 'FileNotFound',\n  UnsupportedRuntimeVersion = 'UnsupportedRuntimeVersion',\n  IncorrectRiveFileUrl = 'IncorrectRiveFileUrl',\n  IncorrectAnimationName = 'IncorrectAnimationName',\n  MalformedFile = 'MalformedFile',\n  IncorrectArtboardName = 'IncorrectArtboardName',\n  IncorrectStateMachineName = 'IncorrectStateMachineName',\n  IncorrectStateMachineInput = 'IncorrectStateMachineInput',\n  TextRunNotFoundError = 'TextRunNotFoundError',\n}\n\nexport type RNRiveError = {\n  message: string;\n  type: RNRiveErrorType;\n};\n\nexport interface RiveEventProperties {\n  [key: string]: number | boolean | string;\n}\n\nexport interface RiveEvent {\n  name: string;\n  type: number;\n  delay?: number;\n  properties?: RiveEventProperties;\n}\n\nexport interface RiveGeneralEvent extends RiveEvent {}\n\nexport interface RiveOpenUrlEvent extends RiveEvent {\n  url?: string;\n  target?: string;\n}\n\nexport interface RiveRendererInterface {\n  defaultRenderer(\n    iosRenderer: RiveRendererIOS,\n    androidRenderer: RiveRendererAndroid\n  ): void;\n}\n"]}
+\ No newline at end of file
+diff --git a/node_modules/rive-react-native/lib/module/types.js b/node_modules/rive-react-native/lib/module/types.js
+index 43061a4..7d7c3e4 100644
+--- a/node_modules/rive-react-native/lib/module/types.js
++++ b/node_modules/rive-react-native/lib/module/types.js
+@@ -63,7 +63,6 @@ export let RiveRendererIOS;
+ 
+ (function (RiveRendererIOS) {
+   RiveRendererIOS["Rive"] = "rive";
+-  RiveRendererIOS["Skia"] = "skia";
+   RiveRendererIOS["CoreGraphics"] = "coreGraphics";
+ })(RiveRendererIOS || (RiveRendererIOS = {}));
+ 
+@@ -71,7 +70,6 @@ export let RiveRendererAndroid;
+ 
+ (function (RiveRendererAndroid) {
+   RiveRendererAndroid["Rive"] = "rive";
+-  RiveRendererAndroid["Skia"] = "skia";
+   RiveRendererAndroid["Canvas"] = "canvas";
+ })(RiveRendererAndroid || (RiveRendererAndroid = {}));
+ 
+diff --git a/node_modules/rive-react-native/lib/module/types.js.map b/node_modules/rive-react-native/lib/module/types.js.map
+index ad38366..b05b9ed 100644
+--- a/node_modules/rive-react-native/lib/module/types.js.map
++++ b/node_modules/rive-react-native/lib/module/types.js.map
+@@ -1 +1 @@
+-{"version":3,"sources":["types.ts"],"names":["ViewManagerMethod","Fit","Alignment","LoopMode","Direction","RiveRendererIOS","RiveRendererAndroid","RNRiveErrorType"],"mappings":"AA2BA,WAAYA,iBAAZ;;WAAYA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;GAAAA,iB,KAAAA,iB;;AAgBZ,WAAYC,GAAZ;;WAAYA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;GAAAA,G,KAAAA,G;;AAUZ,WAAYC,SAAZ;;WAAYA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,KAAAA,S;;AAYZ,WAAYC,QAAZ;;WAAYA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;GAAAA,Q,KAAAA,Q;;AAOZ,WAAYC,SAAZ;;WAAYA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,KAAAA,S;;AAMZ,WAAYC,eAAZ;;WAAYA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,KAAAA,e;;AAMZ,WAAYC,mBAAZ;;WAAYA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;GAAAA,mB,KAAAA,mB;;AAMZ,WAAYC,eAAZ;;WAAYA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,KAAAA,e","sourcesContent":["export type RiveRef = {\n  fireState: (stateMachineName: string, inputName: string) => void;\n  setInputState: (\n    stateMachineName: string,\n    inputName: string,\n    value: boolean | number\n  ) => void;\n  fireStateAtPath: (inputName: string, path: string) => void;\n  setInputStateAtPath: (\n    inputName: string,\n    value: boolean | number,\n    path: string\n  ) => void;\n  play: (\n    animationName?: string,\n    loop?: LoopMode,\n    direction?: Direction,\n    isStateMachine?: boolean\n  ) => void;\n  pause: () => void;\n  stop: () => void;\n  reset: () => void;\n  touchBegan: (x: number, y: number) => void;\n  touchEnded: (x: number, y: number) => void;\n  setTextRunValue: (textRunName: string, value: string) => void;\n};\n\nexport enum ViewManagerMethod {\n  play = 'play',\n  pause = 'pause',\n  stop = 'stop',\n  reset = 'reset',\n  fireState = 'fireState',\n  setBooleanState = 'setBooleanState',\n  setNumberState = 'setNumberState',\n  fireStateAtPath = 'fireStateAtPath',\n  setBooleanStateAtPath = 'setBooleanStateAtPath',\n  setNumberStateAtPath = 'setNumberStateAtPath',\n  touchBegan = 'touchBegan',\n  touchEnded = 'touchEnded',\n  setTextRunValue = 'setTextRunValue',\n}\n\nexport enum Fit {\n  Cover = 'cover',\n  Contain = 'contain',\n  Fill = 'fill',\n  FitWidth = 'fitWidth',\n  FitHeight = 'fitHeight',\n  None = 'none',\n  ScaleDown = 'scaleDown',\n}\n\nexport enum Alignment {\n  TopLeft = 'topLeft',\n  TopCenter = 'topCenter',\n  TopRight = 'topRight',\n  CenterLeft = 'centerLeft',\n  Center = 'center',\n  CenterRight = 'centerRight',\n  BottomLeft = 'bottomLeft',\n  BottomCenter = 'bottomCenter',\n  BottomRight = 'bottomRight',\n}\n\nexport enum LoopMode {\n  OneShot = 'oneShot',\n  Loop = 'loop',\n  PingPong = 'pingPong',\n  Auto = 'auto',\n}\n\nexport enum Direction {\n  Backwards = 'backwards',\n  Auto = 'auto',\n  Forwards = 'forwards',\n}\n\nexport enum RiveRendererIOS {\n  Rive = 'rive',\n  Skia = 'skia',\n  CoreGraphics = 'coreGraphics',\n}\n\nexport enum RiveRendererAndroid {\n  Rive = 'rive',\n  Skia = 'skia',\n  Canvas = 'canvas',\n}\n\nexport enum RNRiveErrorType {\n  FileNotFound = 'FileNotFound',\n  UnsupportedRuntimeVersion = 'UnsupportedRuntimeVersion',\n  IncorrectRiveFileUrl = 'IncorrectRiveFileUrl',\n  IncorrectAnimationName = 'IncorrectAnimationName',\n  MalformedFile = 'MalformedFile',\n  IncorrectArtboardName = 'IncorrectArtboardName',\n  IncorrectStateMachineName = 'IncorrectStateMachineName',\n  IncorrectStateMachineInput = 'IncorrectStateMachineInput',\n  TextRunNotFoundError = 'TextRunNotFoundError',\n}\n\nexport type RNRiveError = {\n  message: string;\n  type: RNRiveErrorType;\n};\n\nexport interface RiveEventProperties {\n  [key: string]: number | boolean | string;\n}\n\nexport interface RiveEvent {\n  name: string;\n  type: number;\n  delay?: number;\n  properties?: RiveEventProperties;\n}\n\nexport interface RiveGeneralEvent extends RiveEvent {}\n\nexport interface RiveOpenUrlEvent extends RiveEvent {\n  url?: string;\n  target?: string;\n}\n\nexport interface RiveRendererInterface {\n  defaultRenderer(\n    iosRenderer: RiveRendererIOS,\n    androidRenderer: RiveRendererAndroid\n  ): void;\n}\n"]}
+\ No newline at end of file
++{"version":3,"sources":["types.ts"],"names":["ViewManagerMethod","Fit","Alignment","LoopMode","Direction","RiveRendererIOS","RiveRendererAndroid","RNRiveErrorType"],"mappings":"AA2BA,WAAYA,iBAAZ;;WAAYA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;AAAAA,EAAAA,iB;GAAAA,iB,KAAAA,iB;;AAgBZ,WAAYC,GAAZ;;WAAYA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;AAAAA,EAAAA,G;GAAAA,G,KAAAA,G;;AAUZ,WAAYC,SAAZ;;WAAYA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,KAAAA,S;;AAYZ,WAAYC,QAAZ;;WAAYA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;AAAAA,EAAAA,Q;GAAAA,Q,KAAAA,Q;;AAOZ,WAAYC,SAAZ;;WAAYA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,KAAAA,S;;AAMZ,WAAYC,eAAZ;;WAAYA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,KAAAA,e;;AAMZ,WAAYC,mBAAZ;;WAAYA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;AAAAA,EAAAA,mB;GAAAA,mB,KAAAA,mB;;AAMZ,WAAYC,eAAZ;;WAAYA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;AAAAA,EAAAA,e;GAAAA,e,KAAAA,e","sourcesContent":["export type RiveRef = {\n  fireState: (stateMachineName: string, inputName: string) => void;\n  setInputState: (\n    stateMachineName: string,\n    inputName: string,\n    value: boolean | number\n  ) => void;\n  fireStateAtPath: (inputName: string, path: string) => void;\n  setInputStateAtPath: (\n    inputName: string,\n    value: boolean | number,\n    path: string\n  ) => void;\n  play: (\n    animationName?: string,\n    loop?: LoopMode,\n    direction?: Direction,\n    isStateMachine?: boolean\n  ) => void;\n  pause: () => void;\n  stop: () => void;\n  reset: () => void;\n  touchBegan: (x: number, y: number) => void;\n  touchEnded: (x: number, y: number) => void;\n  setTextRunValue: (textRunName: string, value: string) => void;\n};\n\nexport enum ViewManagerMethod {\n  play = 'play',\n  pause = 'pause',\n  stop = 'stop',\n  reset = 'reset',\n  fireState = 'fireState',\n  setBooleanState = 'setBooleanState',\n  setNumberState = 'setNumberState',\n  fireStateAtPath = 'fireStateAtPath',\n  setBooleanStateAtPath = 'setBooleanStateAtPath',\n  setNumberStateAtPath = 'setNumberStateAtPath',\n  touchBegan = 'touchBegan',\n  touchEnded = 'touchEnded',\n  setTextRunValue = 'setTextRunValue',\n}\n\nexport enum Fit {\n  Cover = 'cover',\n  Contain = 'contain',\n  Fill = 'fill',\n  FitWidth = 'fitWidth',\n  FitHeight = 'fitHeight',\n  None = 'none',\n  ScaleDown = 'scaleDown',\n}\n\nexport enum Alignment {\n  TopLeft = 'topLeft',\n  TopCenter = 'topCenter',\n  TopRight = 'topRight',\n  CenterLeft = 'centerLeft',\n  Center = 'center',\n  CenterRight = 'centerRight',\n  BottomLeft = 'bottomLeft',\n  BottomCenter = 'bottomCenter',\n  BottomRight = 'bottomRight',\n}\n\nexport enum LoopMode {\n  OneShot = 'oneShot',\n  Loop = 'loop',\n  PingPong = 'pingPong',\n  Auto = 'auto',\n}\n\nexport enum Direction {\n  Backwards = 'backwards',\n  Auto = 'auto',\n  Forwards = 'forwards',\n}\n\nexport enum RiveRendererIOS {\n  Rive = 'rive',\n  CoreGraphics = 'coreGraphics',\n}\n\nexport enum RiveRendererAndroid {\n  Rive = 'rive',\n  Canvas = 'canvas',\n}\n\nexport enum RNRiveErrorType {\n  FileNotFound = 'FileNotFound',\n  UnsupportedRuntimeVersion = 'UnsupportedRuntimeVersion',\n  IncorrectRiveFileUrl = 'IncorrectRiveFileUrl',\n  IncorrectAnimationName = 'IncorrectAnimationName',\n  MalformedFile = 'MalformedFile',\n  IncorrectArtboardName = 'IncorrectArtboardName',\n  IncorrectStateMachineName = 'IncorrectStateMachineName',\n  IncorrectStateMachineInput = 'IncorrectStateMachineInput',\n  TextRunNotFoundError = 'TextRunNotFoundError',\n}\n\nexport type RNRiveError = {\n  message: string;\n  type: RNRiveErrorType;\n};\n\nexport interface RiveEventProperties {\n  [key: string]: number | boolean | string;\n}\n\nexport interface RiveEvent {\n  name: string;\n  type: number;\n  delay?: number;\n  properties?: RiveEventProperties;\n}\n\nexport interface RiveGeneralEvent extends RiveEvent {}\n\nexport interface RiveOpenUrlEvent extends RiveEvent {\n  url?: string;\n  target?: string;\n}\n\nexport interface RiveRendererInterface {\n  defaultRenderer(\n    iosRenderer: RiveRendererIOS,\n    androidRenderer: RiveRendererAndroid\n  ): void;\n}\n"]}
+\ No newline at end of file
+diff --git a/node_modules/rive-react-native/lib/typescript/types.d.ts b/node_modules/rive-react-native/lib/typescript/types.d.ts
+index df9322a..cfe2b88 100644
+--- a/node_modules/rive-react-native/lib/typescript/types.d.ts
++++ b/node_modules/rive-react-native/lib/typescript/types.d.ts
+@@ -59,12 +59,10 @@ export declare enum Direction {
+ }
+ export declare enum RiveRendererIOS {
+     Rive = "rive",
+-    Skia = "skia",
+     CoreGraphics = "coreGraphics"
+ }
+ export declare enum RiveRendererAndroid {
+     Rive = "rive",
+-    Skia = "skia",
+     Canvas = "canvas"
+ }
+ export declare enum RNRiveErrorType {
+diff --git a/node_modules/rive-react-native/rive-react-native.podspec b/node_modules/rive-react-native/rive-react-native.podspec
+index f43be90..38a1d58 100644
+--- a/node_modules/rive-react-native/rive-react-native.podspec
++++ b/node_modules/rive-react-native/rive-react-native.podspec
+@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
+   s.source_files = "ios/**/*.{h,m,mm,swift}"
+ 
+   s.dependency "React-Core"
+-  s.dependency "RiveRuntime", "5.14.0"
++  s.dependency "RiveRuntime", "6.1.7"
+ end
+diff --git a/node_modules/rive-react-native/src/types.ts b/node_modules/rive-react-native/src/types.ts
+index 891c00a..22de41a 100644
+--- a/node_modules/rive-react-native/src/types.ts
++++ b/node_modules/rive-react-native/src/types.ts
+@@ -78,13 +78,11 @@ export enum Direction {
+ 
+ export enum RiveRendererIOS {
+   Rive = 'rive',
+-  Skia = 'skia',
+   CoreGraphics = 'coreGraphics',
+ }
+ 
+ export enum RiveRendererAndroid {
+   Rive = 'rive',
+-  Skia = 'skia',
+   Canvas = 'canvas',
+ }
+ 
